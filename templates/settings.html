@@ -2,16 +2,62 @@
 {% block content %}
     <h1>Settings</h1>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-    {% for exchange in exchanges %}
-    <div class="col">
-      <div class="card">
-        <img src="{{ exchange.logo }}" class="card-img-top" alt="..." style="max-height: 100px;">
-        <div class="card-body">
-          <h5 class="card-title">{{ exchange.name }}</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> 
-        </div>
-      </div> <!-- card -->
-    </div> <!-- col -->
-    {% endfor %}
+      <div class="col">
+        <div class="card">
+          <img src="/static/img/binance.svg'" class="card-img-top" alt="..." style="max-height: 100px;">
+          <div class="card-body">
+            <h5 class="card-title">Binance</h5>
+            <form method="POST" action="">
+              {{ binanceform.hidden_tag() }}
+              <fieldset class="form-group">
+                <div class="form-group">
+                  {{ binanceform.api_key.label(class="form-control-label")}}
+                  {{ binanceform.api_key(class="form-control form-control-lg")}}
+                </div>
+                <div class="form-group">
+                  {{ binanceform.api_secret.label(class="form-control-label")}}
+                  {{ binanceform.api_secret(class="form-control form-control-lg")}}
+                </div>
+              
+                <div class="form-group">
+                  {{ binanceform.assets.label(class="form-control-label")}}
+                  {{ binanceform.assets(class="form-control form-control-lg")}}
+                </div>
+              </fieldset>
+              <div class="form-group">
+                {{ binanceform.submit(class="btn btn-outline-info") }}
+              </div>
+              
+            </form>
+          </div>
+        </div> <!-- card -->
+      </div> <!-- col -->
+      <div class="col">
+        <div class="card">
+          <img src="/static/img/poloniex.svg" class="card-img-top" alt="..." style="max-height: 100px;">
+          <div class="card-body">
+            <h5 class="card-title">Poloniex</h5>
+            <form method="POST" action="">
+              {{ poloniexform.hidden_tag() }}
+              <fieldset class="form-group">
+                <div class="form-group">
+                  {{ poloniexform.api_key.label(class="form-control-label")}}
+                  {{ poloniexform.api_key(class="form-control form-control-lg")}}
+                </div>
+                <div class="form-group">
+                  {{ poloniexform.api_secret.label(class="form-control-label")}}
+                  {{ poloniexform.api_secret(class="form-control form-control-lg")}}
+                </div>
+              </fieldset>
+              <div class="form-group">
+                {{ poloniexform.submit(clas="btn btn-outline-info")}}
+              </div>
+              
+            </form>
+          </div>
+        </div> <!-- card -->
+      </div> <!-- col -->
+    
+    
   </div> <!-- cards row -->
 {% endblock content %}

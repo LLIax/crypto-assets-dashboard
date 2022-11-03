@@ -1,15 +1,20 @@
 from flask import Flask, render_template, url_for
+from forms import BinanceForm, PoloniexForm
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] ='6734a63ba14b2ab5a397a44b81d3fcc0'
 
 exchanges =[
     {
         'name': 'Binance',
-        'logo': '/static/img/binance.svg'
+        'logo': '/static/img/binance.svg', 
+        
     },
     {
         'name': 'Poloniex',
-        'logo': '/static/img/poloniex.svg'
+        'logo': '/static/img/poloniex.svg',
+        
     }
 ]
 
@@ -19,4 +24,7 @@ def hello_world():
 
 @app.route("/settings")
 def settings():
-    return render_template('settings.html', exchanges = exchanges, title = 'Settings')
+    binanceform = BinanceForm()
+    
+    poloniexform = PoloniexForm()
+    return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, title = 'Settings')
