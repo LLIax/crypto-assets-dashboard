@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash
 from forms import BinanceForm, PoloniexForm
 
 app = Flask(__name__)
@@ -22,9 +22,11 @@ exchanges =[
 def hello_world():
     return render_template('home.html', title = 'Main page')
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET','POST'])
 def settings():
+    
     binanceform = BinanceForm()
+    
     
     poloniexform = PoloniexForm()
     return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, title = 'Settings')
