@@ -26,7 +26,12 @@ def hello_world():
 def settings():
     
     binanceform = BinanceForm()
-    
+    if binanceform.validate_on_submit():
+        flash(f'Binance API key {binanceform.api_key.data} saved', 'success')
     
     poloniexform = PoloniexForm()
+    if poloniexform.validate_on_submit():
+        flash(f'Poloniex API key {poloniexform.api_key.data} saved', 'success')
+    
+    # TODO: separate setting pages
     return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, title = 'Settings')
