@@ -37,7 +37,10 @@
                   {% endif %}
                   
                 </div>
-              
+                <div class="form-check">
+                  {{ binanceform.enable_dust(class="form-check-input") }}
+                  {{ binanceform.enable_dust.label(class="form-check-label") }}
+                </div>
                 <div class="form-group">
                   {{ binanceform.assets.label(class="form-control-label")}}
                   {{ binanceform.assets(class="form-control form-control-lg")}}

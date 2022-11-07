@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 class BinanceForm(FlaskForm):
     api_key = StringField(label='API Key', validators=[DataRequired()])
     api_secret = PasswordField(label='API Secret', validators=[DataRequired()])
-    enable_dust = BooleanField(label='Enable automatic dusting'),
+    enable_dust = BooleanField(label='Enable automatic dusting')
     assets = StringField(label='Assets to exclude')
     binancesubmit = SubmitField('Sign Up')
 
