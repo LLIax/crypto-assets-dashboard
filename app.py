@@ -19,7 +19,7 @@ exchanges =[
 ]
 
 @app.route("/")
-def hello_world():
+def home():
     return render_template('home.html', title = 'Main page')
 
 @app.route("/settings", methods=['GET','POST'])
