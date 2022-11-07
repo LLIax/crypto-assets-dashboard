@@ -12,11 +12,30 @@
               <fieldset class="form-group">
                 <div class="form-group">
                   {{ binanceform.api_key.label(class="form-control-label")}}
-                  {{ binanceform.api_key(class="form-control form-control-lg")}}
+                  {% if binanceform.api_key.errors %}
+                    {{ binanceform.api_key(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in binanceform.api_key.errors %}
+                        <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    {{ binanceform.api_key(class="form-control form-control-lg")}}
+                  {% endif %}
                 </div>
                 <div class="form-group">
                   {{ binanceform.api_secret.label(class="form-control-label")}}
+                  {% if binanceform.api_secret.errors %}
+                  {{ binanceform.api_secret(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in binanceform.api_secret.errors %}
+                        <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                  {% else %}
                   {{ binanceform.api_secret(class="form-control form-control-lg")}}
+                  {% endif %}
+                  
                 </div>
               
                 <div class="form-group">
