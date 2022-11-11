@@ -4,14 +4,14 @@ from wtforms.validators import DataRequired
 
 
 class BinanceForm(FlaskForm):
-    api_key = StringField(label='API Key', validators=[DataRequired()])
-    api_secret = PasswordField(label='API Secret', validators=[DataRequired()])
-    enable_dust = BooleanField(label='Enable automatic dusting')
-    assets = StringField(label='Assets to exclude')
-    binancesubmit = SubmitField('Sign Up')
+    binanceapi_key = StringField(label='API Key', validators=[DataRequired()])
+    binanceapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
+    binanceenable_dust = BooleanField(label='Enable automatic dusting')
+    binanceassets = StringField(label='Assets to exclude')
+    binancesubmit = SubmitField('Save')
 
 
 class PoloniexForm(FlaskForm):
-    api_key = StringField(label='API Key', validators=[DataRequired()])
-    api_secret = PasswordField(label='API Secret', validators=[DataRequired()])
+    poloniexapi_key = StringField(label='API Key', validators=[DataRequired()])
+    poloniexapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
     poloniexsubmit = SubmitField(label='Save')

@@ -11,39 +11,39 @@
               {{ binanceform.hidden_tag() }}
               <fieldset class="form-group">
                 <div class="form-group">
-                  {{ binanceform.api_key.label(class="form-control-label")}}
-                  {% if binanceform.api_key.errors %}
-                    {{ binanceform.api_key(class="form-control form-control-lg is-invalid")}}
+                  {{ binanceform.binanceapi_key.label(class="form-control-label")}}
+                  {% if binanceform.binanceapi_key.errors %}
+                    {{ binanceform.binanceapi_key(class="form-control form-control-lg is-invalid")}}
                     <div class="invalid-feedback">
-                      {% for error in binanceform.api_key.errors %}
+                      {% for error in binanceform.binanceapi_key.errors %}
                         <span>{{ error }}</span>
                       {% endfor %}
                     </div>
                   {% else %}
-                    {{ binanceform.api_key(class="form-control form-control-lg")}}
+                    {{ binanceform.binanceapi_key(class="form-control form-control-lg")}}
                   {% endif %}
                 </div>
                 <div class="form-group">
-                  {{ binanceform.api_secret.label(class="form-control-label")}}
-                  {% if binanceform.api_secret.errors %}
-                  {{ binanceform.api_secret(class="form-control form-control-lg is-invalid")}}
+                  {{ binanceform.binanceapi_secret.label(class="form-control-label")}}
+                  {% if binanceform.binanceapi_secret.errors %}
+                  {{ binanceform.binanceapi_secret(class="form-control form-control-lg is-invalid")}}
                     <div class="invalid-feedback">
-                      {% for error in binanceform.api_secret.errors %}
+                      {% for error in binanceform.binanceapi_secret.errors %}
                         <span>{{ error }}</span>
                       {% endfor %}
                     </div>
                   {% else %}
-                  {{ binanceform.api_secret(class="form-control form-control-lg")}}
+                  {{ binanceform.binanceapi_secret(class="form-control form-control-lg")}}
                   {% endif %}
                   
                 </div>
                 <div class="form-check">
-                  {{ binanceform.enable_dust(class="form-check-input") }}
-                  {{ binanceform.enable_dust.label(class="form-check-label") }}
+                  {{ binanceform.binanceenable_dust(class="form-check-input") }}
+                  {{ binanceform.binanceenable_dust.label(class="form-check-label") }}
                 </div>
                 <div class="form-group">
-                  {{ binanceform.assets.label(class="form-control-label")}}
-                  {{ binanceform.assets(class="form-control form-control-lg")}}
+                  {{ binanceform.binanceassets.label(class="form-control-label")}}
+                  {{ binanceform.binanceassets(class="form-control form-control-lg")}}
                 </div>
               </fieldset>
               <div class="form-group">
@@ -63,12 +63,12 @@
               {{ poloniexform.hidden_tag() }}
               <fieldset class="form-group">
                 <div class="form-group">
-                  {{ poloniexform.api_key.label(class="form-control-label")}}
-                  {{ poloniexform.api_key(class="form-control form-control-lg")}}
+                  {{ poloniexform.poloniexapi_key.label(class="form-control-label")}}
+                  {{ poloniexform.poloniexapi_key(class="form-control form-control-lg")}}
                 </div>
                 <div class="form-group">
-                  {{ poloniexform.api_secret.label(class="form-control-label")}}
-                  {{ poloniexform.api_secret(class="form-control form-control-lg")}}
+                  {{ poloniexform.poloniexapi_secret.label(class="form-control-label")}}
+                  {{ poloniexform.poloniexapi_secret(class="form-control form-control-lg")}}
                 </div>
               </fieldset>
               <div class="form-group">

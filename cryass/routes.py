@@ -13,14 +13,17 @@ def settings():
     
     binanceform = BinanceForm()
     if binanceform.binancesubmit.data and binanceform.validate_on_submit():
-        exchange = Exchange(name="Binance", api_key=binanceform.api_key.data, api_secret=binanceform.api_secret.data, is_active=True)
+        exchange = Exchange(name="Binance", api_key=binanceform.binanceapi_key.data, api_secret=binanceform.binanceapi_secret.data, is_active=True)
         db.session.add(exchange)
         db.session.commit()
-        flash(f'Binance API key {binanceform.api_key.data} saved', 'success')
+        flash(f'Binance API key {binanceform.binanceapi_key.data} saved', 'success')
     
     poloniexform = PoloniexForm()
     if poloniexform.poloniexsubmit.data and poloniexform.validate_on_submit():
-        flash(f'Poloniex API key {poloniexform.api_key.data} saved', 'success')
+        exchange = Exchange(name="Poloniex", api_key=poloniexform.poloniexapi_key.data, api_secret=poloniexform.poloniexapi_secret.data, is_active=True)
+        db.session.add(exchange)
+        db.session.commit()
+        flash(f'Poloniex API key {poloniexform.poloniexapi_key.data} saved', 'success')
     
     # TODO: separate setting pages
     return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, title = 'Settings')
