@@ -1,6 +1,7 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_crontab import Crontab
 
 app = Flask(__name__)
 
@@ -10,6 +11,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/lliax/crypto-assets/dat
 db = SQLAlchemy(app)
 
 app.app_context().push()
+
+crontab = Crontab(app)
 
 """ 
 Init_db: 
@@ -23,4 +26,7 @@ Run in terminal
 TODO: Write init_db script
 """
 
+
+
 from cryass import routes 
+from cryass import crontasks
