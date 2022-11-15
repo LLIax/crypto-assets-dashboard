@@ -50,25 +50,23 @@ def binance():
         client = Client(api_key, api_secret)
 
         info = client.get_account()
-        
+        #return (info["balances"])
+
         for balance in info["balances"]:
-            return(balance)
+            
             if float(balance["free"]) > 0:
                 # listing of coins on Earn wallet to ledger file
-                return(balance)
+                dbbalance = Balance(exchange_id=exchange_id, account="free", currency=balance["asset"], balance=float(balance["free"]))
+                db.session.add(dbbalance)
+                db.session.commit()
+            if float(balance["locked"]) > 0:
+                # listing of coins on Earn wallet to ledger file
+                dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=balance["asset"], balance=float(balance["locked"]))
+                db.session.add(dbbalance)
+                db.session.commit()
                 
                 
-                #balance = Balance(exchange_id=exchange_id, account="free", currency=balance["asset"], balance=float(balance["free"]))
-                #return(str(balance))
-                #db.session.add(balance)
-                #db.session.commit()
-                #except Exception as e:
-                #    return(f'caught {type(e)}: e')
-            if float(balance["locked"]) >0:
-                return(balance)
-                #balance = Balance(exchange_id=exchange_id, account="free", currency=balance["asset"], balance=float(balance["locked"]))
-                #return(str(balance))
-                #db.session.add(balance)
-                #db.session.commit()
-        
+                
+        return("OK")#    return(f'caught {type(e)}: e')
+            
     
