@@ -10,7 +10,7 @@ class Exchange(db.Model):
     balances = db.relationship('Balance', backref='exchange', lazy=True)
 
     def __repr__(self):
-        return f"Exchange('{self.name}', '{self.api_key}')"
+        return f"Exchange('{self.id}', '{self.name}', '{self.api_key}', '{self.api_secret}')"
 
 class Balance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,5 +21,5 @@ class Balance(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"Balance('{self.exchange_id}', '{self.account}', '{self.currency}', '{self.balance}', '{self.data}')"
+        return f"Balance('{self.exchange_id}', '{self.account}', '{self.currency}', '{self.balance}', '{self.date}')"
 
