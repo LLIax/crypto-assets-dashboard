@@ -48,22 +48,36 @@ def binance():
         exchange_id = str(exchange.id)
         
         client = Client(api_key, api_secret)
+        
 
         info = client.get_account()
-        #return (info["balances"])
-
+        
         for balance in info["balances"]:
             
             if float(balance["free"]) > 0:
                 # listing of coins on Earn wallet to ledger file
-                dbbalance = Balance(exchange_id=exchange_id, account="free", currency=balance["asset"], balance=float(balance["free"]))
+                if balance["asset"].startswith("LD"):
+                    account = "lending"
+                    currency = balance["asset"][2:]
+                else:
+                    account = "free"
+                    currency = balance["asset"]
+
+                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=currency, balance=float(balance["free"]))
                 db.session.add(dbbalance)
-                db.session.commit()
+
             if float(balance["locked"]) > 0:
                 # listing of coins on Earn wallet to ledger file
+                if balance["asset"].startswith("LD"):
+                    account = "lending-locked"
+                    currency = balance["asset"][2:]
+                else:
+                    account = "locked"
+                    currency = balance["asset"]
+
                 dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=balance["asset"], balance=float(balance["locked"]))
                 db.session.add(dbbalance)
-                db.session.commit()
+        db.session.commit()
                 
                 
                 
