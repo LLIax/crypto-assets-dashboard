@@ -6,7 +6,7 @@ from binance.exceptions import BinanceAPIException
 import json
 
 
-@crontab.job(minute="35", hour="21")
+@crontab.job(minute="0", hour="21")
 def scheduled_job():
     """
     TODO: implement exchanges polling
@@ -27,31 +27,42 @@ def scheduled_job():
     """
     # list of assets not to  be dusted
     
-    assets = ('BNB', 'BTC', 'BCH', 'USDT', 'BUSD', 'TRX', 'DOGE', 'NFT')
-    
-    dust = ""
-
     exchange = Exchange.query.filter_by(name="Binance").first()
+    
     if exchange:
-        with open('readme.txt', 'w') as f:
-            f.write(json.dumps(exchange))
+
         api_key = exchange.api_key
         api_secret = exchange.api_secret
-
+        exchange_id = str(exchange.id)
+        
         client = Client(api_key, api_secret)
+        
 
         info = client.get_account()
         
- 
-            
         for balance in info["balances"]:
+            
             if float(balance["free"]) > 0:
                 # listing of coins on Earn wallet to ledger file
-                balance = Balance(name="Binance", account="free", currency=balance["asset"], balance=balance["free"])
-                db.session.add(balance)
+                if balance["asset"].startswith("LD"):
+                    account = "lending"
+                    currency = balance["asset"][2:]
+                else:
+                    account = "free"
+                    currency = balance["asset"]
 
-            if float(balance["locked"]) >0:
-                balance = Balance(name="Binance", account="free", currency=balance["asset"], balance=balance["free"])
-                db.session.add(balance)
+                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=currency, balance=float(balance["free"]))
+                db.session.add(dbbalance)
+
+            if float(balance["locked"]) > 0:
+                # listing of coins on Earn wallet to ledger file
+                if balance["asset"].startswith("LD"):
+                    account = "lending-locked"
+                    currency = balance["asset"][2:]
+                else:
+                    account = "locked"
+                    currency = balance["asset"]
+
+                dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=balance["asset"], balance=float(balance["locked"]))
+                db.session.add(dbbalance)
         db.session.commit()
-    
