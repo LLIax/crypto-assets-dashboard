@@ -6,6 +6,7 @@ from cryass.models import Exchange, Balance
 from binance import Client
 from datetime import datetime
 from binance.exceptions import BinanceAPIException
+import ccxt
 import json
 
 
@@ -35,9 +36,6 @@ def settings():
 
 @app.route("/binance", methods=['GET','POST'])
 def binance():
-    assets = ('BNB', 'BTC', 'BCH', 'USDT', 'BUSD', 'TRX', 'DOGE', 'NFT')
-    
-    dust = ""
     
     exchange = Exchange.query.filter_by(name="Binance").first()
     
@@ -45,42 +43,8 @@ def binance():
 
         api_key = exchange.api_key
         api_secret = exchange.api_secret
-        exchange_id = str(exchange.id)
-        
-        client = Client(api_key, api_secret)
-        
-
-        info = client.get_account()
-        
-        for balance in info["balances"]:
-            
-            if float(balance["free"]) > 0:
-                # listing of coins on Earn wallet to ledger file
-                if balance["asset"].startswith("LD"):
-                    account = "lending"
-                    currency = balance["asset"][2:]
-                else:
-                    account = "free"
-                    currency = balance["asset"]
-
-                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=currency, balance=float(balance["free"]))
-                db.session.add(dbbalance)
-
-            if float(balance["locked"]) > 0:
-                # listing of coins on Earn wallet to ledger file
-                if balance["asset"].startswith("LD"):
-                    account = "lending-locked"
-                    currency = balance["asset"][2:]
-                else:
-                    account = "locked"
-                    currency = balance["asset"]
-
-                dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=balance["asset"], balance=float(balance["locked"]))
-                db.session.add(dbbalance)
-        db.session.commit()
-                
-                
-                
-        return("OK")#    return(f'caught {type(e)}: e')
+        binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
+        balance = binance.fetch_balance({'type':'savings'})
+        return(balance)#    return(f'caught {type(e)}: e')
             
     
