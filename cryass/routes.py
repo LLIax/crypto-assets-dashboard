@@ -44,7 +44,7 @@ def binance():
         api_key = exchange.api_key
         api_secret = exchange.api_secret
         binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
-        balance = binance.fetch_balance({'type':'savings'})
+        balance = binance.fetch_balance({'type':'funding'})
         return(balance)#    return(f'caught {type(e)}: e')
             
     
