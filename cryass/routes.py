@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect
 from cryass import app, db
-from cryass.forms import BinanceForm, PoloniexForm
+from cryass.forms import BinanceForm, PoloniexForm, HuobiForm
 from cryass.models import Exchange, Balance
 
 from binance import Client
@@ -24,6 +24,13 @@ def settings():
         db.session.commit()
         flash(f'Binance API key {binanceform.binanceapi_key.data} saved', 'success')
     
+    huobiform = HuobiForm()
+    if huobiform.huobisubmit.data and huobiform.validate_on_submit():
+        exchange = Exchange(name="Huobi", api_key=huobiform.huobiapi_key.data, api_secret=huobiform.huobiapi_secret.data, is_active=True)
+        db.session.add(exchange)
+        db.session.commit()
+        flash(f'Huobi API key {huobiform.huobiapi_key.data} saved', 'success')
+
     poloniexform = PoloniexForm()
     if poloniexform.poloniexsubmit.data and poloniexform.validate_on_submit():
         exchange = Exchange(name="Poloniex", api_key=poloniexform.poloniexapi_key.data, api_secret=poloniexform.poloniexapi_secret.data, is_active=True)
@@ -32,7 +39,7 @@ def settings():
         flash(f'Poloniex API key {poloniexform.poloniexapi_key.data} saved', 'success')
     
     # TODO: separate setting pages
-    return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, title = 'Settings')
+    return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, huobiform=huobiform, title = 'Settings')
 
 @app.route("/binance", methods=['GET','POST'])
 def binance():
@@ -41,10 +48,13 @@ def binance():
     
     if exchange:
 
+        
         api_key = exchange.api_key
         api_secret = exchange.api_secret
         binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
-        balance = binance.fetch_balance({'type':'funding'})
+        balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
+        #balance = binance.fetchAccountPositions()
+        #balance = binance.fetch_balance({'type':'interest'})
         return(balance)#    return(f'caught {type(e)}: e')
             
     

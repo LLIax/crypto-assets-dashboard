@@ -15,3 +15,8 @@ class PoloniexForm(FlaskForm):
     poloniexapi_key = StringField(label='API Key', validators=[DataRequired()])
     poloniexapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
     poloniexsubmit = SubmitField(label='Save')
+
+class HuobiForm(FlaskForm):
+    huobiapi_key = StringField(label='API Key', validators=[DataRequired()])
+    huobiapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
+    huobisubmit = SubmitField(label='Save')
