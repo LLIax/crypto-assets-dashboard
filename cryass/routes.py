@@ -44,17 +44,24 @@ def settings():
 @app.route("/binance", methods=['GET','POST'])
 def binance():
     
-    exchange = Exchange.query.filter_by(name="Binance").first()
+    exchange = Exchange.query.filter_by(name="Huobi").first()
     
     if exchange:
 
         
         api_key = exchange.api_key
         api_secret = exchange.api_secret
-        binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
-        balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
+        #binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
+        huobi = ccxt.huobi({'apiKey': api_key, 'secret':api_secret})
+        balance = huobi.fetchBalance()
+        #balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
         #balance = binance.fetchAccountPositions()
         #balance = binance.fetch_balance({'type':'interest'})
-        return(balance)#    return(f'caught {type(e)}: e')
+        outp = {}
+        for bal in balance['total']:
+            if balance['total'][bal] > 0:
+                outp[bal]=balance['total'][bal] 
+
+        return(outp)#    return(f'caught {type(e)}: e')
             
     

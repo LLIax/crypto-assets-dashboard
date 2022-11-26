@@ -66,3 +66,11 @@ def scheduled_job():
                 dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=balance["asset"], balance=float(balance["locked"]))
                 db.session.add(dbbalance)
         db.session.commit()
+    exchange = Exchange.query.filter_by(name="Huobi").first()
+    if exchange:
+        api_key = exchange.api_key
+        api_secret = exchange.api_secret
+
+        huobi = ccxt.huobi({'apiKey': api_key, 'secret':api_secret})
+        balance = huobi.fetchBalance()
+            
