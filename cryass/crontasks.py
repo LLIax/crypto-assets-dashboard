@@ -70,16 +70,14 @@ def scheduled_job():
     if exchange:
         api_key = exchange.api_key
         api_secret = exchange.api_secret
+        exchange_id = str(exchange.id)
 
         huobi = ccxt.huobi({'apiKey': api_key, 'secret':api_secret})
         balance = huobi.fetchBalance()
         for bal in balance['total']:
             if balance['total'][bal] > 0:
                 account = "locked"
-                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=bal, balance=float(balance['total']))
+                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=bal, balance=float(balance['total'][bal]))
                 db.session.add(dbbalance)
 
         db.session.commit()
-
-                
-            
