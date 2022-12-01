@@ -76,7 +76,7 @@ def scheduled_job():
         balance = huobi.fetchBalance()
         for bal in balance['total']:
             if balance['total'][bal] > 0:
-                account = "locked"
+                account = "free"
                 dbbalance = Balance(exchange_id=exchange_id, account=account, currency=bal, balance=float(balance['total'][bal]))
                 db.session.add(dbbalance)
 
