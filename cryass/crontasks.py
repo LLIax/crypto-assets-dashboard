@@ -65,6 +65,11 @@ def scheduled_job():
 
                 dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=balance["asset"], balance=float(balance["locked"]))
                 db.session.add(dbbalance)
+        balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
+        for bal in balance:
+            if float(bal['amount']) > 0:
+                dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=bal['asset'], balance=float(bal['amount']))
+                db.session.add(dbbalance)
         db.session.commit()
     exchange = Exchange.query.filter_by(name="Huobi").first()
     if exchange:
