@@ -3,9 +3,8 @@ from cryass import app, db
 from cryass.forms import BinanceForm, PoloniexForm, HuobiForm
 from cryass.models import Exchange, Balance
 
-from binance import Client
 from datetime import datetime
-from binance.exceptions import BinanceAPIException
+
 import ccxt
 import json
 
@@ -43,8 +42,36 @@ def settings():
 
 @app.route("/binance", methods=['GET','POST'])
 def binance():
-    
     exchange = Exchange.query.filter_by(name="Binance").first()
+    
+    if exchange:
+
+        api_key = exchange.api_key
+        api_secret = exchange.api_secret
+        exchange_id = str(exchange.id)
+        
+        binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
+        balance = binance.fetchBalance()
+        
+        for bal in balance['total']:
+            if balance['total'][bal] > 0:
+                if bal.startswith("LD"):
+                    account = "lending"
+                    currency = bal[2:]
+                else: 
+                    account = "free"
+                    currency = bal
+                value = balance['total'][bal]
+                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=currency, balance=float(value))
+                db.session.add(dbbalance)
+        balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
+        for bal in balance:
+            if float(bal['amount']) > 0:
+                dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=bal['asset'], balance=float(bal['amount']))
+                db.session.add(dbbalance)
+        db.session.commit()
+    
+    exchange = Exchange.query.filter_by(name="Poloniex").first()
     
    
     if exchange:
@@ -52,13 +79,13 @@ def binance():
         
         api_key = exchange.api_key
         api_secret = exchange.api_secret
-        binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
+        poloniex = ccxt.poloniex({'apiKey': api_key, 'secret':api_secret})
         #huobi = ccxt.huobi({'apiKey': api_key, 'secret':api_secret})
         #balance = huobi.fetchBalance()
-        balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
+        balance = poloniex.fetch_balance()
         #balance = binance.fetchAccountPositions()
         #balance = binance.fetch_balance({'type':'interest'})
-        
+        return (balance)
         outp = {}
         for bal in balance:
             if float(bal['amount']) > 0:
