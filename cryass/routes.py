@@ -42,55 +42,20 @@ def settings():
 
 @app.route("/binance", methods=['GET','POST'])
 def binance():
-    exchange = Exchange.query.filter_by(name="Binance").first()
-    
-    if exchange:
 
+    
+    exchange = Exchange.query.filter_by(name="Poloniex").first() 
+    if exchange:
         api_key = exchange.api_key
         api_secret = exchange.api_secret
         exchange_id = str(exchange.id)
-        
-        binance = ccxt.binance({'apiKey': api_key, 'secret':api_secret})
-        balance = binance.fetchBalance()
-        
+        poloniex = ccxt.poloniex({'apiKey': api_key, 'secret':api_secret})
+        balance = poloniex.fetch_balance()
         for bal in balance['total']:
             if balance['total'][bal] > 0:
-                if bal.startswith("LD"):
-                    account = "lending"
-                    currency = bal[2:]
-                else: 
-                    account = "free"
-                    currency = bal
-                value = balance['total'][bal]
-                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=currency, balance=float(value))
-                db.session.add(dbbalance)
-        balance = binance.sapiGetStakingPosition ({"product":"STAKING"})
-        for bal in balance:
-            if float(bal['amount']) > 0:
-                dbbalance = Balance(exchange_id=exchange_id, account="locked", currency=bal['asset'], balance=float(bal['amount']))
+                account = "free"
+                dbbalance = Balance(exchange_id=exchange_id, account=account, currency=bal, balance=float(balance['total'][bal]))
                 db.session.add(dbbalance)
         db.session.commit()
-    
-    exchange = Exchange.query.filter_by(name="Poloniex").first()
-    
-   
-    if exchange:
-
-        
-        api_key = exchange.api_key
-        api_secret = exchange.api_secret
-        poloniex = ccxt.poloniex({'apiKey': api_key, 'secret':api_secret})
-        #huobi = ccxt.huobi({'apiKey': api_key, 'secret':api_secret})
-        #balance = huobi.fetchBalance()
-        balance = poloniex.fetch_balance()
-        #balance = binance.fetchAccountPositions()
-        #balance = binance.fetch_balance({'type':'interest'})
-        return (balance)
-        outp = {}
-        for bal in balance:
-            if float(bal['amount']) > 0:
-                outp[bal['asset']]=bal['amount']
-
-        return(outp)#    return(f'caught {type(e)}: e')
-            
+        return(balance)
     
