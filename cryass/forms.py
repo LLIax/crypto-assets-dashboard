@@ -20,3 +20,8 @@ class HuobiForm(FlaskForm):
     huobiapi_key = StringField(label='API Key', validators=[DataRequired()])
     huobiapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
     huobisubmit = SubmitField(label='Save')
+
+class GateIOForm(FlaskForm):
+    gateioapi_key = StringField(label='API Key', validators=[DataRequired()])
+    gateioapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
+    gateiosubmit = SubmitField(label='Save')

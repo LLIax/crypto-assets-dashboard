@@ -78,6 +78,7 @@
             </form>
           </div>
         </div> <!-- card -->
+      
       </div> <!-- col -->
       <div class="col">
         <div class="card">
@@ -104,6 +105,34 @@
           </div>
         </div> <!-- card -->
       </div> <!-- col -->
+
     
+    <div class="col">
+      <div class="card">
+        <img src="/static/img/gateio.svg" class="card-img-top" alt="..." style="max-height: 100px;">
+        <div class="card-body">
+          <h5 class="card-title">Gate.io</h5>
+          <form method="POST" action="">
+            {{ gateioform.hidden_tag() }}
+            <fieldset class="form-group">
+              <div class="form-group">
+                {{ gateioform.gateioapi_key.label(class="form-control-label")}}
+                {{ gateioform.gateioapi_key(class="form-control form-control-lg")}}
+              </div>
+              <div class="form-group">
+                {{ gateioform.gateioapi_secret.label(class="form-control-label")}}
+                {{ gateioform.gateioapi_secret(class="form-control form-control-lg")}}
+              </div>
+            </fieldset>
+            <div class="form-group">
+              {{ gateioform.gateiosubmit(class="btn btn-outline-info")}}
+            </div>
+            
+          </form>
+        </div>
+      </div> <!-- card -->
+    </div> <!-- col -->
+
+      
   </div> <!-- cards row -->
 {% endblock content %}
