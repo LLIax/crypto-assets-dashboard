@@ -51,13 +51,15 @@ def settings():
 def binance():
 
     
-    exchange = Exchange.query.filter_by(name="Poloniex").first() 
+    exchange = Exchange.query.filter_by(name="Gate.io").first() 
+    
     if exchange:
         api_key = exchange.api_key
         api_secret = exchange.api_secret
         exchange_id = str(exchange.id)
-        poloniex = ccxt.poloniex({'apiKey': api_key, 'secret':api_secret})
+        poloniex = ccxt.gate({'apiKey': api_key, 'secret':api_secret})
         balance = poloniex.fetch_balance()
+        return(balance)
         for bal in balance['total']:
             if balance['total'][bal] > 0:
                 account = "free"
