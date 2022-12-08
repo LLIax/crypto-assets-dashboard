@@ -59,7 +59,6 @@ def binance():
         exchange_id = str(exchange.id)
         poloniex = ccxt.gate({'apiKey': api_key, 'secret':api_secret})
         balance = poloniex.fetch_balance()
-        return(balance)
         for bal in balance['total']:
             if balance['total'][bal] > 0:
                 account = "free"
