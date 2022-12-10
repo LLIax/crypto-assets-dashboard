@@ -25,3 +25,8 @@ class GateIOForm(FlaskForm):
     gateioapi_key = StringField(label='API Key', validators=[DataRequired()])
     gateioapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
     gateiosubmit = SubmitField(label='Save')
+
+class CoinexForm(FlaskForm):
+    coinexapi_key = StringField(label='API Key', validators=[DataRequired()])
+    coinexapi_secret = PasswordField(label='API Secret', validators=[DataRequired()])
+    coinexsubmit = SubmitField(label='Save')

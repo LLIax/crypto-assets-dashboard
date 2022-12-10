@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect
 from cryass import app, db
-from cryass.forms import BinanceForm, PoloniexForm, HuobiForm, GateIOForm
+from cryass.forms import BinanceForm, PoloniexForm, HuobiForm, GateIOForm, CoinexForm
 from cryass.models import Exchange, Balance
 
 from datetime import datetime
@@ -43,9 +43,16 @@ def settings():
         db.session.add(exchange)
         db.session.commit()
         flash(f'Gate.io API key {gateioform.gateioapi_key.data} saved', 'success')
-    
+
+    coinexform = CoinexForm()
+    if coinexform.coinexsubmit.data and coinexform.validate_on_submit():
+        exchange = Exchange(name="Coinex", api_key=coinexform.coinexapi_key.data, api_secret=coinexorm.coinexapi_secret.data, is_active=True)
+        db.session.add(exchange)
+        db.session.commit()
+        flash(f'Coinex API key {coinexform.coinexapi_key.data} saved', 'success')
+
     # TODO: separate setting pages
-    return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, huobiform=huobiform, gateioform=gateioform, title = 'Settings')
+    return render_template('settings.html', binanceform=binanceform, poloniexform=poloniexform, huobiform=huobiform, gateioform=gateioform, coinexform=coinexform, title = 'Settings')
 
 @app.route("/binance", methods=['GET','POST'])
 def binance():

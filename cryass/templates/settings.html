@@ -132,6 +132,31 @@
         </div>
       </div> <!-- card -->
     </div> <!-- col -->
+    <div class="col">
+      <div class="card">
+        <img src="/static/img/coinex.svg" class="card-img-top" alt="..." style="max-height: 100px;">
+        <div class="card-body">
+          <h5 class="card-title">Gate.io</h5>
+          <form method="POST" action="">
+            {{ coinexform.hidden_tag() }}
+            <fieldset class="form-group">
+              <div class="form-group">
+                {{ coinexform.coinexapi_key.label(class="form-control-label")}}
+                {{ coinexform.coinexapi_key(class="form-control form-control-lg")}}
+              </div>
+              <div class="form-group">
+                {{ coinexform.coinexapi_secret.label(class="form-control-label")}}
+                {{ coinexform.coinexapi_secret(class="form-control form-control-lg")}}
+              </div>
+            </fieldset>
+            <div class="form-group">
+              {{ coinexform.coinexsubmit(class="btn btn-outline-info")}}
+            </div>
+            
+          </form>
+        </div>
+      </div> <!-- card -->
+    </div> <!-- col -->
 
       
   </div> <!-- cards row -->
