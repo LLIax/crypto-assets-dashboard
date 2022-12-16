@@ -75,6 +75,8 @@ def scheduled_job():
 
         db.session.commit()
 
+    #TODO: add fixed savings
+
     exchange = Exchange.query.filter_by(name="Poloniex").first() 
     if exchange:
         api_key = exchange.api_key
@@ -103,3 +105,4 @@ def scheduled_job():
                 dbbalance = Balance(exchange_id=exchange_id, account=account, currency=bal, balance=float(balance['total'][bal]))
                 db.session.add(dbbalance)
         db.session.commit()
+    #TODO: add fixed savings
